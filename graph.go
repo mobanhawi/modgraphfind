@@ -12,7 +12,7 @@ import (
 // nodelist represents nodes as strings
 type nodelist []string
 
-// nodelist represents nodes as strings
+// nodeset represents nodes as strings
 type nodeset map[string]bool
 
 // graph maps nodes to the non-nil set of their immediate successors.
