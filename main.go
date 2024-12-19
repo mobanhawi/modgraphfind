@@ -35,14 +35,12 @@ func main() {
 		usage()
 	}
 
-	args := flag.Args()
-
-	if err := modgraphfind(args, os.Stdin, os.Stdout); err != nil {
+	if err := modgraphfind(flag.Args(), os.Stdin, os.Stdout); err != nil {
 		log.Fatal(err)
 	}
 }
 
-func modgraphfind(args []string, in io.Reader, out io.Writer) error {
+func modgraphfind(nodes []string, in io.Reader, out io.Writer) error {
 	// parse `go mod graph` output into a directed graph
 	g, err := parse(in)
 	if err != nil {
@@ -51,12 +49,13 @@ func modgraphfind(args []string, in io.Reader, out io.Writer) error {
 
 	// add search nodes into a nodeset
 	n := nodeset{}
-	for _, arg := range args {
-		n[arg] = true
+	for _, node := range nodes {
+		n[node] = true
 	}
 
 	// find subgraph from search nodes to root node
-	// TODO: add reverse mode to get all reachable nodes from root node
+	// TODO: add reverse mode to get all reachable
+	// nodes from root node
 	sub := g.reachableFrom(n)
 	// output subgraph to writer
 	var b bytes.Buffer
