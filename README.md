@@ -1,6 +1,10 @@
 # ModGraphFind
 ModGraphFind parses and searches “go mod graph” output into Graphviz's DOT 
 
+<p>
+    <a href="https://github.com/mobanhawi/modgraphfind/actions/workflows/go.yml"><img src="https://github.com/mobanhawi/modgraphfind/actions/workflows/go.yml/badge.svg"></a>
+</p>
+
 Inpsired by [digraph](golang.org/x/tools/cmd/digraph)
 
 
