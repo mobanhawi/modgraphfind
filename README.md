@@ -1,5 +1,5 @@
-# modgraphfind
-Mographfind parses and searches “go mod graph” output into Graphviz's DOT 
+# ModGraphFind
+ModGraphFind parses and searches “go mod graph” output into Graphviz's DOT 
 
 
 Usage:
