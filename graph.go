@@ -76,6 +76,7 @@ func (g graph) reachableFrom(roots nodeset) graph {
 }
 
 // transpose the reverse of the input edges
+// nolint
 func (g graph) transpose() graph {
 	rev := make(graph)
 	for node, edges := range g {
@@ -87,6 +88,7 @@ func (g graph) transpose() graph {
 	return rev
 }
 
+// toDot TODO: extend to add colors
 func (g graph) toDot(w *bytes.Buffer) (err error) {
 	_, err = fmt.Fprintln(w, "digraph gomodgraph {")
 	if err != nil {

@@ -55,10 +55,9 @@ func modgraphfind(args []string, in io.Reader, out io.Writer) error {
 		n[arg] = true
 	}
 
-	// reverse direction to search backward
-	t := g.transpose()
-	// fnd subgraph from search nodes to root node
-	sub := t.reachableFrom(n)
+	// find subgraph from search nodes to root node
+	// TODO: add reverse mode to get all reachable nodes from root node
+	sub := g.reachableFrom(n)
 	// output subgraph to writer
 	var b bytes.Buffer
 
@@ -88,8 +87,8 @@ func parse(r io.Reader) (graph, error) {
 		if len(parts) != 2 {
 			return nil, fmt.Errorf("expected 2 words in line, but got %d: %s", len(parts), l)
 		}
-		from := parts[0]
-		to := parts[1]
+		to := parts[0]
+		from := parts[1]
 
 		g.addEdges(from, to)
 	}
