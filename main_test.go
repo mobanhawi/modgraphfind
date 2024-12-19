@@ -17,7 +17,7 @@ test.com/C@v1.0.0 test.com/E@v1.0.0
 		t.Fatal(err)
 	}
 
-	gotGraph := string(out.Bytes())
+	gotGraph := out.String()
 	wantGraph := `digraph gomodgraph {
 	node [ shape=rectangle fontsize=12 ]
 	"test.com/B@v1.0.0" -> "test.com/A@v1.0.0";

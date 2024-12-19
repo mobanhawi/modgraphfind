@@ -1,6 +1,8 @@
 # ModGraphFind
 ModGraphFind parses and searches “go mod graph” output into Graphviz's DOT 
 
+Inpsired by [digraph](golang.org/x/tools/cmd/digraph)
+
 
 Usage:
 

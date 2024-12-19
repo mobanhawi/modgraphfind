@@ -43,20 +43,25 @@ func main() {
 }
 
 func modgraphfind(args []string, in io.Reader, out io.Writer) error {
+	// parse `go mod graph` output into a directed graph
 	g, err := parse(in)
 	if err != nil {
 		return fmt.Errorf("parsing graph: %w", err)
 	}
 
+	// add search nodes into a nodeset
 	n := nodeset{}
 	for _, arg := range args {
 		n[arg] = true
 	}
 
+	// reverse direction to search backward
 	t := g.transpose()
+	// fnd subgraph from search nodes to root node
 	sub := t.reachableFrom(n)
-
+	// output subgraph to writer
 	var b bytes.Buffer
+
 	err = sub.toDot(&b)
 	if err != nil {
 		return fmt.Errorf("building graph dot: %w", err)

@@ -88,10 +88,11 @@ func (g graph) transpose() graph {
 }
 
 func (g graph) toDot(w *bytes.Buffer) (err error) {
-
 	_, err = fmt.Fprintln(w, "digraph gomodgraph {")
+	if err != nil {
+		return
+	}
 	_, err = fmt.Fprintln(w, "\tnode [ shape=rectangle fontsize=12 ]")
-
 	if err != nil {
 		return
 	}
