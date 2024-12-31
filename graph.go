@@ -9,14 +9,21 @@ import (
 	"sort"
 )
 
+// node represents a node in a graph
+type node string
+
+func newNode(s string) node {
+	return node(s)
+}
+
 // nodelist represents nodes as strings
-type nodelist []string
+type nodelist []node
 
 // nodeset represents nodes as strings
-type nodeset map[string]bool
+type nodeset map[node]bool
 
 // graph maps nodes to the non-nil set of their immediate successors.
-type graph map[string]nodeset
+type graph map[node]nodeset
 
 func (s nodeset) sort() nodelist {
 	nodes := make(nodelist, len(s))
@@ -25,11 +32,13 @@ func (s nodeset) sort() nodelist {
 		nodes[i] = node
 		i++
 	}
-	sort.Strings(nodes)
+	sort.SliceStable(nodes, func(i, j int) bool {
+		return nodes[i] < nodes[j]
+	})
 	return nodes
 }
 
-func (g graph) addNode(node string) nodeset {
+func (g graph) addNode(node node) nodeset {
 	edges := g[node]
 	if edges == nil {
 		edges = make(nodeset)
@@ -38,7 +47,7 @@ func (g graph) addNode(node string) nodeset {
 	return edges
 }
 
-func (g graph) addEdges(from string, to ...string) {
+func (g graph) addEdges(from node, to ...node) {
 	edges := g.addNode(from)
 	for _, to := range to {
 		g.addNode(to)
@@ -58,13 +67,13 @@ func (g graph) nodelist() nodelist {
 func (g graph) reachableFrom(roots nodeset) graph {
 	seen := make(nodeset)
 	sub := make(graph)
-	var visit func(node string)
-	visit = func(node string) {
-		if !seen[node] {
-			seen[node] = true
+	var visit func(node)
+	visit = func(n node) {
+		if !seen[n] {
+			seen[n] = true
 			// visit all immediate successors
-			for e := range g[node] {
-				sub.addEdges(node, e)
+			for e := range g[n] {
+				sub.addEdges(n, e)
 				visit(e)
 			}
 		}

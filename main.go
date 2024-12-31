@@ -48,15 +48,16 @@ func modgraphfind(nodes []string, in io.Reader, out io.Writer) error {
 	}
 
 	// add search nodes into a nodeset
-	n := nodeset{}
-	for _, node := range nodes {
-		n[node] = true
+	ns := nodeset{}
+	for _, nName := range nodes {
+		n := newNode(nName)
+		ns[n] = true
 	}
 
 	// find subgraph from search nodes to root node
 	// TODO: add reverse mode to get all reachable
 	// nodes from root node
-	sub := g.reachableFrom(n)
+	sub := g.reachableFrom(ns)
 	// output subgraph to writer
 	var b bytes.Buffer
 
@@ -89,7 +90,7 @@ func parse(r io.Reader) (graph, error) {
 		to := parts[0]
 		from := parts[1]
 
-		g.addEdges(from, to)
+		g.addEdges(newNode(from), newNode(to))
 	}
 	return g, nil
 }
