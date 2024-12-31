@@ -12,6 +12,7 @@ import (
 // node represents a node in a graph
 type node string
 
+// newNode creates a new node
 func newNode(s string) node {
 	return node(s)
 }
@@ -28,10 +29,12 @@ type graph map[node]nodeset
 func (s nodeset) sort() nodelist {
 	nodes := make(nodelist, len(s))
 	var i int
-	for node := range s {
-		nodes[i] = node
+	for n := range s {
+		nodes[i] = n
 		i++
 	}
+	// ensure deterministic order
+	// we are looping over nodeset which is a map
 	sort.SliceStable(nodes, func(i, j int) bool {
 		return nodes[i] < nodes[j]
 	})

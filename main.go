@@ -40,6 +40,7 @@ func main() {
 	}
 }
 
+// modgraphfind finds a subgraph from a set of nodes to the root node
 func modgraphfind(nodes []string, in io.Reader, out io.Writer) error {
 	// parse `go mod graph` output into a directed graph
 	g, err := parse(in)
