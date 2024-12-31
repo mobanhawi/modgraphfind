@@ -102,14 +102,8 @@ func (g graph) transpose() graph {
 
 // toDot TODO: extend to add colors
 func (g graph) toDot(w *bytes.Buffer) (err error) {
-	_, err = fmt.Fprintln(w, "digraph gomodgraph {")
-	if err != nil {
-		return
-	}
-	_, err = fmt.Fprintln(w, "\tnode [ shape=rectangle fontsize=12 ]")
-	if err != nil {
-		return
-	}
+	fmt.Fprintln(w, "digraph gomodgraph {")
+	fmt.Fprintln(w, "\tnode [ shape=rectangle fontsize=12 ]")
 
 	for _, src := range g.nodelist() {
 		for _, dst := range g[src].sort() {
@@ -119,9 +113,6 @@ func (g graph) toDot(w *bytes.Buffer) (err error) {
 			}
 		}
 	}
-	_, err = fmt.Fprintln(w, "}")
-	if err != nil {
-		return
-	}
+	fmt.Fprintln(w, "}")
 	return
 }
