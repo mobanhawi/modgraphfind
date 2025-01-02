@@ -17,34 +17,34 @@ func newNode(s string) node {
 	return node(s)
 }
 
-// nodelist represents nodes as strings
-type nodelist []node
+// list represents nodes as strings
+type list []node
 
-// nodeset represents nodes as strings
-type nodeset map[node]bool
+// set represents nodes as strings
+type set map[node]bool
 
 // graph maps nodes to the non-nil set of their immediate successors.
-type graph map[node]nodeset
+type graph map[node]set
 
-func (s nodeset) sort() nodelist {
-	nodes := make(nodelist, len(s))
+func (s set) sort() list {
+	nodes := make(list, len(s))
 	var i int
 	for n := range s {
 		nodes[i] = n
 		i++
 	}
 	// ensure deterministic order
-	// we are looping over nodeset which is a map
+	// we are looping over set which is a map
 	sort.SliceStable(nodes, func(i, j int) bool {
 		return nodes[i] < nodes[j]
 	})
 	return nodes
 }
 
-func (g graph) addNode(node node) nodeset {
+func (g graph) addNode(node node) set {
 	edges := g[node]
 	if edges == nil {
-		edges = make(nodeset)
+		edges = make(set)
 		g[node] = edges
 	}
 	return edges
@@ -52,23 +52,24 @@ func (g graph) addNode(node node) nodeset {
 
 func (g graph) addEdges(from node, to ...node) {
 	edges := g.addNode(from)
-	for _, to := range to {
-		g.addNode(to)
-		edges[to] = true
+	for _, t := range to {
+		g.addNode(t)
+		edges[t] = true
 	}
 }
 
-func (g graph) nodelist() nodelist {
-	nodes := make(nodeset)
-	for node := range g {
-		nodes[node] = true
+func (g graph) nodelist() list {
+	nodes := make(set)
+	for n := range g {
+		nodes[n] = true
 	}
 	return nodes.sort()
 }
 
 // reachableFrom subgraph transitively reach the specified nodes
-func (g graph) reachableFrom(roots nodeset) graph {
-	seen := make(nodeset)
+func (g graph) reachableFrom(roots set) graph {
+	seen := make(set)
+	// reachable subgraph from roots
 	sub := make(graph)
 	var visit func(node)
 	visit = func(n node) {
@@ -76,6 +77,7 @@ func (g graph) reachableFrom(roots nodeset) graph {
 			seen[n] = true
 			// visit all immediate successors
 			for e := range g[n] {
+				// add edge from `e` to `n` to subgraph
 				sub.addEdges(n, e)
 				visit(e)
 			}
@@ -91,10 +93,10 @@ func (g graph) reachableFrom(roots nodeset) graph {
 // nolint
 func (g graph) transpose() graph {
 	rev := make(graph)
-	for node, edges := range g {
-		rev.addNode(node)
+	for n, edges := range g {
+		rev.addNode(n)
 		for succ := range edges {
-			rev.addEdges(succ, node)
+			rev.addEdges(succ, n)
 		}
 	}
 	return rev

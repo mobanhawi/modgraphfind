@@ -48,8 +48,8 @@ func modgraphfind(nodes []string, in io.Reader, out io.Writer) error {
 		return fmt.Errorf("parsing graph: %w", err)
 	}
 
-	// add search nodes into a nodeset
-	ns := nodeset{}
+	// add search nodes into a set
+	ns := set{}
 	for _, nName := range nodes {
 		n := newNode(nName)
 		ns[n] = true
