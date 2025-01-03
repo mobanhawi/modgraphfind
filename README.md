@@ -1,7 +1,7 @@
 # ModGraphFind
 ModGraphFind parses and searches “go mod graph” output into Graphviz's DOT 
 
-![ci/cd]("https://github.com/mobanhawi/modgraphfind/actions/workflows/go.yml/badge.svg") 
+![ci/cd](https://github.com/mobanhawi/modgraphfind/actions/workflows/go.yml/badge.svg) 
 
 ![coverage](./assets/coverage.svg)
 
